@@ -8,7 +8,13 @@ public class Task3 {
      * Если инпут равен null - вернуть пустой массив
      */
     int[] getShiftedArray(int[] inputArray) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(inputArray == null || inputArray.length == 0)
+            return new int[0];
+        int rightValue = inputArray[inputArray.length - 1];
+        for(int i = inputArray.length - 1; i > 0; --i)
+            inputArray[i] = inputArray[i - 1];
+        inputArray[0] = rightValue;
+        return inputArray;
     }
 
     /**
@@ -20,7 +26,24 @@ public class Task3 {
      * Пример: 2 4 6 -> 24
      */
     int getMaxProduct(int[] inputArray) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(inputArray == null || inputArray.length == 0)
+            return 0;
+        if(inputArray.length == 1)
+            return inputArray[0];
+        int firstBiggestValue = Integer.MIN_VALUE;
+        int secondBiggestValue = Integer.MIN_VALUE;
+        for(int current : inputArray)
+        {
+            if(current >= firstBiggestValue)
+            {
+                secondBiggestValue = firstBiggestValue;
+                firstBiggestValue = current;
+                continue;
+            }
+            if(current > secondBiggestValue)
+                secondBiggestValue = current;
+        }
+        return firstBiggestValue * secondBiggestValue;
     }
 
     /**
@@ -31,14 +54,32 @@ public class Task3 {
      * Пример: acbr -> 50
      */
     int getABpercentage(String input) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(input == null || input.length() == 0)
+            return 0;
+        int counter = 0;
+        for(char piece : input.toUpperCase().toCharArray())
+        {
+            if(piece == 'A' || piece == 'B')
+                ++counter;
+        }
+        return counter * 100 / input.length();
     }
 
     /**
      * Напишите функцию, которая определяет, является ли входная строка палиндромом
      */
     boolean isPalindrome(String input) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(input == null)
+            return false;
+        int length = input.length();
+        for(int i = 0; i < length / 2; ++i)
+        {
+            if(input.charAt(i) != input.charAt(length - i - 1))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -46,7 +87,24 @@ public class Task3 {
      * где группы одинаковых символов заменены на один символ и кол-во этих символов идущих подряд в строке
      */
     String getEncodedString(String input) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(input == null || input.length() == 0)
+            return "";
+        String building = new String();
+        char previous = input.charAt(0);
+        int counter = 1;
+        for(int i = 1; i < input.length(); ++i)
+        {
+            if(input.charAt(i) == previous)
+                ++counter;
+            else
+            {
+                building += previous + Integer.toString(counter);
+                counter = 1;
+                previous = input.charAt(i);
+            }
+        }
+        building += previous + Integer.toString(counter);
+        return building;
     }
 
     /**
@@ -57,7 +115,16 @@ public class Task3 {
      * isPermutation("abc", "Abc") == false;
      */
     boolean isPermutation(String one, String two) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(one == null || two == null || one.length() == 0 || two.length() == 0)
+            return false;
+        for(char symbol : one.toCharArray())
+        {
+            if(two.indexOf(symbol) >= 0)
+                two = two.replaceFirst(Character.toString(symbol), "");
+            else
+                return false;
+        }
+        return two.length() == 0;
     }
 
     /**
@@ -66,7 +133,16 @@ public class Task3 {
      * Строкой является последовательность символов длинной N, где N > 0
      */
     boolean isUniqueString(String s) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(s == null || s.length() == 0)
+            return false;
+        String usingSymbols = new String();
+        for(char symbol : s.toCharArray())
+        {
+            if(usingSymbols.indexOf(symbol) >= 0)
+                return false;
+            usingSymbols += symbol;
+        }
+        return true;
     }
 
     /**
@@ -75,7 +151,16 @@ public class Task3 {
      * Если входной массив == null - вернуть пустой массив
      */
     int[][] matrixTranspose(int[][] m) {
-        throw new UnsupportedOperationException(); // TODO solve
+        if(m == null || m[0].length == 0)
+            return new int[][]{{}, {}};
+        for(int i = 0; i < m.length; ++i)
+            for(int j = i; j < m.length; ++j)
+            {
+                int temp = m[i][j];
+                m[i][j] = m[j][i];
+                m[j][i] = temp;
+            }
+        return m;
     }
 
     /**
@@ -88,13 +173,28 @@ public class Task3 {
      * Если исходный массив == null -  вернуть пустую строку
      */
     String concatWithSeparator(String[] inputStrings, Character separator) {
-        return null; // TODO solve
+        if(inputStrings == null || inputStrings.length == 0)
+            return "";
+        if(separator == null)
+            separator = ' ';
+        String building = inputStrings[0];
+        for(int i = 1; i < inputStrings.length; ++i)
+            building += separator + inputStrings[i];
+        return building;
     }
 
     /**
      * Напишите функцию, принимающую массив строк и строку-перфикс и возвращающую кол-во строк массива с данным префиксом
      */
     int getStringsStartWithPrefix(String[] inputStrings, String prefix) {
-        return 0; // TODO solve
+        if(inputStrings == null || prefix == null)
+            return 0;
+        int counter = 0;
+        for(String input : inputStrings)
+        {
+            if(input.indexOf(prefix) == 0)
+                ++counter;
+        }
+        return counter;
     }
 }
